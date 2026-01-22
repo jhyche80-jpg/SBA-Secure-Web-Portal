@@ -18,10 +18,13 @@ const bookmarkSchema = new Schema({
         required: true,
         trim: true
     },
-    timestamps: true
 
 
-})
+},
+    {
+        timestamps: true
+    }
+)
 const Bookmark = model('Bookmark', bookmarkSchema)
 
 module.exports = Bookmark

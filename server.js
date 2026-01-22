@@ -29,7 +29,7 @@ app.get('/', (req, res) => {
 })
 
 // protected routes
-app.use('/api/bookmarks', authMiddleware(), bookmarkRouter)
+app.use('/api/bookmarks', authMiddleware, bookmarkRouter)
 
 // start server 
 async function startServer() {
@@ -37,7 +37,8 @@ async function startServer() {
         await connectDB()
         app.listen(PORT, () => {
             console.log(`Server is running http://localhost:${PORT}`)
-            console.log(`Server is running http://localhost:${PORT}/userrs`)
+            console.log(`Server is running http://localhost:${PORT}/api/bookmarks`)
+            console.log(`Server is running http://localhost:${PORT}/api/users`)
         })
     } catch (error) {
         console.error('Problem:', error)

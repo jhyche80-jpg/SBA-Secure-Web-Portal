@@ -3,7 +3,7 @@ const router = express.Router()
 const bookmarkController = require('../controller/bookmarkController')
 const authMiddleware = require('../utils/auth')
 
-router.use(authMiddleware())
+router.use(authMiddleware)
 // find all
 router.get('/', bookmarkController.findAll)
 // find one 

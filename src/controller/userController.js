@@ -5,26 +5,30 @@ const verification = require('../utils/utils')
 const jwt = require('jsonwebtoken')
 // POST
 async function RegisterPost(req, res) {
-    console.log("Body:", req.body)
     try {
-        const { email, name, password } = req.body
-        const verify = name && email && password
-        verification(verify, res, 'Please fill out all fields')
-        const correctEmail = (/.+@.+\..+/).test(email)
-        verification(correctEmail, res, "Invalid Email")
-        const existingUser = await User.findOne({ email })
-        verification(!existingUser, res, 'Email in use')
-        const newUser = User.create({ name, email, password })
+        const { username, email, password } = req.body;
 
-        console.log(newUser)
-        res.status(201).json(newUser)
+        // Validate fields
+        if (!username || !email || !password) {
+            return res.status(400).json({ message: 'All fields are required' });
+        }
 
+        // Check for existing user
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ message: 'Email already in use' });
+        }
+
+        // Create new user
+        const newUser = await User.create({ username, email, password });
+
+        // Return created user (without password)
+        const { password: _, ...userWithoutPassword } = newUser.toObject();
+        return res.status(201).json(userWithoutPassword);
     } catch (error) {
-        console.error("error creating user information", error)
-        res.status(400).json({ error: "failed to create Post!", details: error.message })
+        console.error('Error creating user:', error);
+        return res.status(500).json({ message: 'Server error', details: error.message });
     }
-
-
 }
 // POST
 

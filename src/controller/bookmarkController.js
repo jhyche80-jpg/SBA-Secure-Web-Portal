@@ -30,11 +30,14 @@ async function Create(req, res) {
 
     // check for req body 
     console.log('req.body:', req.body)
+
     try {
+        req.body.user = req.user._id
+
         // create a new product
-        const newBookmark = new Bookmark.create({ ...req.body, user: req.user._id })
+        const newBookmark = await Bookmark.create(req.body)
         // res statuse and json 
-        res.status(201).json({ newBookmark })
+        res.status(201).json(newBookmark)
 
     } catch (error) {
         // res status and cannot create th e product with details  
@@ -61,7 +64,7 @@ async function Delete(req, res) {
 
 async function Update(req, res) {
     try {
-        const bookmark = Bookmark.findOneAndUpdate({ _id: req.params.id, user: req.user._id }, req, body, { new: true, runValidators: true })
+        const bookmark = await Bookmark.findOneAndUpdate({ _id: req.params.id, user: req.user._id }, req, body, { new: true, runValidators: true })
         if (!bookmark) {
             return res.status(404).json({ message: " Bookmark is not found or you are not authorized to do this" })
         }
