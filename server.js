@@ -7,7 +7,7 @@ const helmet = require('helmet')
 const userRouter = require('./src/routes/userRoute')
 const connectDB = require('./src/config/connection')
 const authMiddleware = require('./src/utils/auth')
-
+const githubRouter = require('./src/routes/githubRoutes')
 // middle ware 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -16,6 +16,7 @@ app.use(authMiddleware())
 
 //router 
 app.use('/api/users', userRouter)
+
 app.get('/', (req, res) => {
     res.send('<h1>Welcome friend</h1>')
 })
