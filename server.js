@@ -20,16 +20,18 @@ const bookmarkRouter = require('./src/routes/bookmarkRouter')
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(helmet())
-app.use(authMiddleware())
 
 //router 
 app.use('/api/users', userRouter)
-app.use('/api/bookmarks', authMiddleware, bookmarkRouter)
+
 app.get('/', (req, res) => {
     res.send('<h1>Welcome friend</h1>')
 })
 
+// protected routes
+app.use('/api/bookmarks', authMiddleware(), bookmarkRouter)
 
+// start server 
 async function startServer() {
     try {
         await connectDB()
