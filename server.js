@@ -1,13 +1,21 @@
-require('dotenv').config
+require('dotenv').config()
+
 const PORT = process.env.PORT || 3001
 
 const express = require('express')
-const app = express()
-const helmet = require('helmet')
-const userRouter = require('./src/routes/userRoute')
 const connectDB = require('./src/config/connection')
+const app = express()
+
 const authMiddleware = require('./src/utils/auth')
-const githubRouter = require('./src/routes/githubRoutes')
+const helmet = require('helmet')
+
+
+const userRouter = require('./src/routes/userRoute')
+const bookmarkRouter = require('./src/routes/bookmarkRouter')
+
+
+
+
 // middle ware 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
