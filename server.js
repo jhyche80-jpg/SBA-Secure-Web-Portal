@@ -24,7 +24,7 @@ app.use(authMiddleware())
 
 //router 
 app.use('/api/users', userRouter)
-
+app.use('/api/bookmarks', authMiddleware, bookmarkRouter)
 app.get('/', (req, res) => {
     res.send('<h1>Welcome friend</h1>')
 })
